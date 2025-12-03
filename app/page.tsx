@@ -21,6 +21,7 @@ export default function EventBuilderPage() {
   const [activeModules, setActiveModules] = useState<string[]>([])
   const [showCustomize, setShowCustomize] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formKey, setFormKey] = useState(0)
 
   const handleEventChange = (field: string, value: string) => {
     setEventData((prev) => ({
@@ -49,6 +50,11 @@ export default function EventBuilderPage() {
       const result = await response.json()
 
       if (!response.ok) {
+        // Extract detailed validation errors if available
+        if (result.details && Array.isArray(result.details) && result.details.length > 0) {
+          const errorMessages = result.details.map((detail: { message: string }) => detail.message).join(", ")
+          throw new Error(errorMessages)
+        }
         throw new Error(result.error || "Failed to create event")
       }
 
@@ -57,7 +63,7 @@ export default function EventBuilderPage() {
         description: "Your event has been created successfully!",
       })
 
-      // Reset form after successful submission
+      // Reset all form state after successful submission
       setEventData({
         name: "",
         phone: "",
@@ -67,6 +73,9 @@ export default function EventBuilderPage() {
         description: "",
       })
       setActiveModules([])
+      setBackgroundImage("/images/image.png")
+      setShowCustomize(false)
+      setFormKey(prev => prev + 1) // Force remount of child components
     } catch (error) {
       toast({
         title: "Error",
@@ -97,14 +106,14 @@ export default function EventBuilderPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-8">
 
           <div className="flex flex-col gap-6">
-            <EventInvitationPreview backgroundImage={backgroundImage} onBackgroundChange={setBackgroundImage} />
+            <EventInvitationPreview key={formKey} backgroundImage={backgroundImage} onBackgroundChange={setBackgroundImage} />
           </div>
 
 
           <div className="flex flex-col gap-6">
             {!showCustomize ? (
               <>
-                <EventForm eventData={eventData} onEventChange={handleEventChange} />
+                <EventForm key={formKey} eventData={eventData} onEventChange={handleEventChange} />
                 <EventFeaturesPanel activeModules={activeModules} onToggleModule={toggleModule} />
 
                 <div className="relative w-full h-[242px] rounded-3xl bg-[rgba(58,58,80,0.6)] backdrop-blur-xl border border-white/10 px-8 pt-10 pb-6 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden">

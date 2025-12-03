@@ -46,8 +46,23 @@ export function EventForm({ eventData, onEventChange }: EventFormProps) {
   }
 
   const handleDateTimeSave = (startDate: Date, startTime: string, endDate: Date, endTime: string) => {
+    // Convert 12-hour time to 24-hour format
+    const convertTo24Hour = (time12h: string): string => {
+      const [time, period] = time12h.split(' ')
+      let [hours, minutes] = time.split(':')
+
+      if (period === 'PM' && hours !== '12') {
+        hours = String(parseInt(hours) + 12)
+      } else if (period === 'AM' && hours === '12') {
+        hours = '00'
+      }
+
+      return `${hours.padStart(2, '0')}:${minutes}:00`
+    }
+
     const formattedDate = startDate.toISOString().split("T")[0]
-    const formattedDateTime = `${formattedDate}T${startTime}`
+    const time24h = convertTo24Hour(startTime)
+    const formattedDateTime = `${formattedDate}T${time24h}`
     onEventChange("dateTime", formattedDateTime)
     setSelectedDate(startDate)
     setSelectedTime(startTime)
