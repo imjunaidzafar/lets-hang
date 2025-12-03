@@ -15,10 +15,16 @@ export function EventTicketModal({ isOpen, onClose, onSave }: EventTicketModalPr
   const [price, setPrice] = useState("1")
   const [totalTickets, setTotalTickets] = useState("10")
   const [requireApproval, setRequireApproval] = useState(false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
+  const [expandedFaq, setExpandedFaq] = useState<string | null>(null)
 
   const handleSave = () => {
     onSave({ ticketName, ticketDescription, price, totalTickets, requireApproval })
     onClose()
+  }
+
+  const toggleFaq = (faq: string) => {
+    setExpandedFaq(expandedFaq === faq ? null : faq)
   }
 
   if (!isOpen) return null
@@ -46,7 +52,10 @@ export function EventTicketModal({ isOpen, onClose, onSave }: EventTicketModalPr
           </p>
         </div>
 
-        <button className="w-full flex items-center justify-between bg-[#3a3a4a] hover:bg-[#4a4a5a] border border-white/10 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 transition-colors">
+        <button
+          onClick={() => setShowInfoModal(true)}
+          className="w-full flex items-center justify-between bg-[#3a3a4a] hover:bg-[#4a4a5a] border border-white/10 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 transition-colors cursor-pointer"
+        >
           <span className="text-white font-medium text-sm sm:text-base">Want to add donation or add ons?</span>
           <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white/60 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -151,12 +160,120 @@ export function EventTicketModal({ isOpen, onClose, onSave }: EventTicketModalPr
           </button>
           <button
             onClick={handleSave}
-            className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base transition-all cursor-pointer"
+            disabled={!ticketName || !price}
+            className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl text-sm sm:text-base transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Create ticket
           </button>
         </div>
       </div>
+
+      {/* Info Modal */}
+      {showInfoModal && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setShowInfoModal(false)} />
+
+          <div className="relative z-10 w-full max-w-lg bg-[rgba(40,40,50,0.95)] rounded-2xl p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <button
+                onClick={() => setShowInfoModal(false)}
+                className="text-white/60 hover:text-white transition-colors cursor-pointer"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <h3 className="text-xl font-bold text-white">Info</h3>
+              <button
+                onClick={() => setShowInfoModal(false)}
+                className="text-white/60 hover:text-white transition-colors cursor-pointer"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {/* FAQ 1 */}
+              <div className="bg-[#3a3a4a] rounded-xl overflow-hidden">
+                <button
+                  onClick={() => toggleFaq('addons')}
+                  className="w-full flex items-center justify-between p-4 text-left cursor-pointer hover:bg-[#4a4a5a] transition-colors"
+                >
+                  <span className="text-white font-medium">How to add add ons ?</span>
+                  <svg
+                    className={`w-5 h-5 text-white/60 transition-transform ${expandedFaq === 'addons' ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedFaq === 'addons' && (
+                  <div className="px-4 pb-4 text-white/70 text-sm space-y-2">
+                    <p>To sell add-ons, first create a ticket for your event. Once your ticket is set up, you'll see an option to add add-ons.</p>
+                    <p>Guests can then purchase both the ticket and any add-ons together during checkout.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* FAQ 2 */}
+              <div className="bg-[#3a3a4a] rounded-xl overflow-hidden">
+                <button
+                  onClick={() => toggleFaq('donation')}
+                  className="w-full flex items-center justify-between p-4 text-left cursor-pointer hover:bg-[#4a4a5a] transition-colors"
+                >
+                  <span className="text-white font-medium">How to add donation ?</span>
+                  <svg
+                    className={`w-5 h-5 text-white/60 transition-transform ${expandedFaq === 'donation' ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedFaq === 'donation' && (
+                  <div className="px-4 pb-4 text-white/70 text-sm space-y-2">
+                    <p className="font-medium text-white/90">To accept donations:</p>
+                    <ol className="list-decimal list-inside space-y-1">
+                      <li>Create a ticket (free or paid) for your event.</li>
+                      <li>Add a donation option to your event.</li>
+                    </ol>
+                    <p className="mt-3">If you only want to collect donations, create a $0 ticket first, then add the donation option.</p>
+                    <p className="mt-2">Guests can buy a regular ticket and choose to donate, either your suggested amount or any amount they prefer.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* FAQ 3 */}
+              <div className="bg-[#3a3a4a] rounded-xl overflow-hidden">
+                <button
+                  onClick={() => toggleFaq('resale')}
+                  className="w-full flex items-center justify-between p-4 text-left cursor-pointer hover:bg-[#4a4a5a] transition-colors"
+                >
+                  <span className="text-white font-medium">Can I resale tickets on Let's Hang ?</span>
+                  <svg
+                    className={`w-5 h-5 text-white/60 transition-transform ${expandedFaq === 'resale' ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {expandedFaq === 'resale' && (
+                  <div className="px-4 pb-4 text-white/70 text-sm">
+                    <p>No, ticket resale isn't supported on Let's Hang. To keep events safe and fair for everyone, tickets can only be used by the original buyer.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

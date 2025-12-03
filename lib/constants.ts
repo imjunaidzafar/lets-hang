@@ -9,8 +9,8 @@ export const MAX_TICKET_DESCRIPTION_LENGTH = 200
 export const MAX_EVENT_DESCRIPTION_LENGTH = 1000
 export const MAX_LOCATION_LENGTH = 200
 
-// Phone number validation
-export const PHONE_NUMBER_REGEX = /^\+?[1-9]\d{1,14}$/
+// Phone number validation - accepts various formats including international
+export const PHONE_NUMBER_REGEX = /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,5}[-\s\.]?[0-9]{1,6}$/
 
 // Price validation
 export const PRICE_REGEX = /^\d+(\.\d{1,2})?$/

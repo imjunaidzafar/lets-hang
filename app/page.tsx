@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast"
 
 export default function EventBuilderPage() {
   const { toast } = useToast()
-  const [cardImage, setCardImage] = useState("/images/image.png") // Invitation card image
+  const [cardImage, setCardImage] = useState("/images/you-invite.png") // Invitation card image
   const [pageBackground, setPageBackground] = useState("linear-gradient(to bottom, #D4A5D9, #C695BE, #5B3A7D)") // Page background
   const [eventData, setEventData] = useState({
     name: "",
@@ -75,7 +75,7 @@ export default function EventBuilderPage() {
         description: "",
       })
       setActiveModules([])
-      setCardImage("/images/image.png")
+      setCardImage("/images/you-invite.png")
       setPageBackground("linear-gradient(to bottom, #D4A5D9, #C695BE, #5B3A7D)")
       setShowCustomize(false)
       setFormKey(prev => prev + 1) // Force remount of child components
