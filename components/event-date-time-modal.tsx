@@ -130,7 +130,7 @@ export function EventDateTimeModal({
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-white">Date and time</h2>
-          <button onClick={handleSave} className="text-blue-400 hover:text-blue-300 font-medium cursor-pointer">
+          <button onClick={handleSave} className="text-white/60 hover:text-white transition-colors font-medium cursor-pointer">
             Save
           </button>
         </div>

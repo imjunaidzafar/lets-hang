@@ -69,7 +69,7 @@ export function EventLocationModal({ isOpen, onClose, onSave, currentLocation }:
       <div className="relative z-10 w-full max-w-md bg-[rgba(58,58,80,0.6)] rounded-2xl p-6 mx-4">
         <div className="flex items-center justify-between mb-6">
           <h2 id="location-modal-title" className="text-xl font-bold text-white">Location</h2>
-          <button onClick={onClose} className="text-white/60 hover:text-white transition-colors" aria-label="Close modal">
+          <button onClick={onClose} className="text-white/60 hover:text-white transition-colors cursor-pointer" aria-label="Close modal">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
