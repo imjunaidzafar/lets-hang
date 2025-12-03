@@ -134,12 +134,13 @@ export default function EventBuilderPage() {
 
                 <div className="relative w-full h-[242px] rounded-3xl bg-[rgba(58,58,80,0.6)] backdrop-blur-xl border border-white/10 px-8 pt-10 pb-6 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden">
 
-                  <div className="pointer-events-none select-none text-white/10">
-                    <span className="absolute left-6 top-8 text-3xl">📣</span>
-                    <span className="absolute left-6 bottom-20 text-3xl">👥</span>
-                    <span className="absolute right-10 top-8 text-3xl">🔗</span>
-                    <span className="absolute right-8 bottom-20 text-3xl">🖼️</span>
-                    <span className="absolute right-16 top-25 text-xs font-semibold tracking-[0.35em] uppercase">
+                  <div className="pointer-events-none select-none text-white/30">
+                    <span className="absolute left-16 top-8 text-4xl">📋</span>
+                    <span className="absolute left-6 top-20 text-4xl">📢</span>
+                    <span className="absolute left-16 top-32 text-4xl">👥</span>
+                    <span className="absolute right-12 top-6 text-4xl">🔗</span>
+                    <span className="absolute right-8 top-24 text-4xl">🖼️</span>
+                    <span className="absolute right-8 top-36 text-xl font-bold tracking-[0.2em] uppercase">
                       RSVP
                     </span>
                   </div>
@@ -194,6 +195,7 @@ export default function EventBuilderPage() {
                 eventData={eventData}
                 activeModules={activeModules}
                 onBack={() => setShowCustomize(false)}
+                onToggleModule={toggleModule}
               />
             )}
           </div>

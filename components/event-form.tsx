@@ -133,7 +133,7 @@ focus:bg-transparent active:bg-transparent
               aria-label="Phone number (optional)"
             />
             <button
-              className="flex items-center justify-center w-9 h-9 rounded-xl 
+              className="flex items-center justify-center w-9 h-9 rounded-md 
              bg-[#8B6BA3]/70 hover:bg-[#8B6BA3]/90 
              text-white shadow-sm transition-all"
             >
@@ -198,7 +198,7 @@ focus:bg-transparent active:bg-transparent
             aria-label="Set ticket price and cost per person"
           >
             <div className="flex items-center gap-3">
-              <span className="text-lg" aria-hidden="true">💰</span>
+              <span className="text-lg" aria-hidden="true">💵</span>
               <span className="text-white">{eventData.costPerPerson || "Cost per person"}</span>
             </div>
           </button>
