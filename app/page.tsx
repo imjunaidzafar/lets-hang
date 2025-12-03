@@ -5,11 +5,13 @@ import { EventInvitationPreview } from "@/components/event-invitation-preview"
 import { EventForm } from "@/components/event-form"
 import { EventFeaturesPanel } from "@/components/event-features-panel"
 import { EventCustomizationPanel } from "@/components/event-customization-panel"
+import { PageBackgroundChanger } from "@/components/page-background-changer"
 import { useToast } from "@/hooks/use-toast"
 
 export default function EventBuilderPage() {
   const { toast } = useToast()
-  const [backgroundImage, setBackgroundImage] = useState("/images/image.png")
+  const [cardImage, setCardImage] = useState("/images/image.png") // Invitation card image
+  const [pageBackground, setPageBackground] = useState("linear-gradient(to bottom, #D4A5D9, #C695BE, #5B3A7D)") // Page background
   const [eventData, setEventData] = useState({
     name: "",
     phone: "",
@@ -73,7 +75,8 @@ export default function EventBuilderPage() {
         description: "",
       })
       setActiveModules([])
-      setBackgroundImage("/images/image.png")
+      setCardImage("/images/image.png")
+      setPageBackground("linear-gradient(to bottom, #D4A5D9, #C695BE, #5B3A7D)")
       setShowCustomize(false)
       setFormKey(prev => prev + 1) // Force remount of child components
     } catch (error) {
@@ -90,7 +93,19 @@ export default function EventBuilderPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#D4A5D9] via-[#C695BE] to-[#5B3A7D] flex justify-center p-4">
+    <div
+      className="min-h-screen flex justify-center p-4"
+      style={{
+        backgroundImage: pageBackground.startsWith('linear-gradient')
+          ? pageBackground
+          : pageBackground.startsWith('url')
+          ? pageBackground
+          : `url('${pageBackground}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <div className="w-full max-w-7xl">
 
         <div className="mb-8">
@@ -106,7 +121,8 @@ export default function EventBuilderPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-8">
 
           <div className="flex flex-col gap-6">
-            <EventInvitationPreview key={formKey} backgroundImage={backgroundImage} onBackgroundChange={setBackgroundImage} />
+            <EventInvitationPreview key={formKey} backgroundImage={cardImage} onBackgroundChange={setCardImage} />
+            <PageBackgroundChanger onBackgroundChange={setPageBackground} />
           </div>
 
 

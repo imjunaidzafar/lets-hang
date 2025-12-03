@@ -91,40 +91,44 @@ export function EventInvitationPreview({ backgroundImage, onBackgroundChange }: 
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      
-      <div
-        className="relative w-full aspect-square rounded-3xl overflow-hidden  flex items-center justify-center"
-        style={{
-          backgroundImage: `url('${backgroundImage}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+    <div
+      className="relative w-full aspect-square rounded-3xl overflow-hidden flex items-center justify-center"
+      style={{
+        backgroundImage: `url('${backgroundImage}')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-rgba(0, 0, 0, 0.3)"></div>
 
-        
-        
-        <button className="absolute bottom-6 right-6 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-colors backdrop-blur-sm border border-white/30">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            />
-          </svg>
-        </button>
-      </div>
 
-      <button
-        onClick={() => fileInputRef.current?.click()}
-        disabled={isCompressing}
-        className="w-full bg-[#8B6BA3]/40 hover:bg-[#8B6BA3]/60 text-white py-3 px-4 rounded-xl font-medium transition-all backdrop-blur-sm border border-white/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        <span>{isCompressing ? "⏳" : "🖼️"}</span>
-        <span>{isCompressing ? "Processing..." : "Change background"}</span>
-      </button>
+
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isCompressing}
+          className="absolute bottom-6 right-6 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-colors backdrop-blur-sm border border-white/30 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          aria-label="Change invitation card image"
+        >
+          {isCompressing ? (
+            <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
+            </svg>
+          )}
+        </button>
 
       <input
         ref={fileInputRef}
@@ -132,7 +136,7 @@ export function EventInvitationPreview({ backgroundImage, onBackgroundChange }: 
         accept="image/*"
         onChange={handleFileChange}
         className="hidden"
-        aria-label="Upload background image"
+        aria-label="Upload invitation card image"
       />
     </div>
   )
